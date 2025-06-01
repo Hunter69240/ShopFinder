@@ -11,9 +11,9 @@ export default function HomeScreen() {
       <Header />
       <Text style={styles.Text}>Welcome to Shop Finder</Text>
       <Text style={styles.TextSelect}>Select a category to find shops</Text>
-      <DropdownComponent setSelectedItem={setSelectedItem} />
+      <DropdownComponent  />
 
-      {selectedItem && <Card value={selectedItem} />}
+      
 
     </View>
   );

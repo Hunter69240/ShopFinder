@@ -2,109 +2,75 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Card from './Card';
+import DisplayShops from './DisplayShops';
+
 const data = [
-    { label: 'Stationary', value: '1' },
-    { label: 'Print', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
+  { label: 'Stationary', value: '1' },
+  { label: 'Print', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
+  { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+];
 
-const DropdownComponent = ({setSelectedItem}) => {
-const [value, setValue] = useState(null);
 
-const renderItem = item => {
-      return (
-        <View style={styles.item}>
-          <Text style={styles.textItem}>{item.label}</Text>
-          {item.value === value && (
-            <AntDesign
-              style={styles.icon}
-              color="black"
-              name="Safety"
-              size={20}
-            />
-          )}
-        </View>
-      );
-    };
+const shopData = {
+  '1': [
+    { label: 'Stationary Shop A' },
+    { label: 'Stationary Shop B' },
+  ],
+  '2': [
+    { label: 'Print Shop X' },
+    { label: 'Print Shop Y' },
+  ],
+  '3': [{ label: 'Item 3 Shop' }],
+  '4': [{ label: 'Item 4 Shop' }],
+  '5': [{ label: 'Item 5 Shop' }],
+  '6': [{ label: 'Item 6 Shop' }],
+  '7': [{ label: 'Item 7 Shop' }],
+  '8': [{ label: 'Item 8 Shop' }],
+};
 
-    return (
+export default function DropdownComponent() {
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  return (
+    <View>
       <Dropdown
         style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
         data={data}
-        search
-        maxHeight={300}
         labelField="label"
         valueField="value"
         placeholder="Select item"
-        searchPlaceholder="Search..."
-        value={value}
-        onChange={item => {
-            setValue(item.value);        
-            setSelectedItem(item);        
-}}
-
+        value={selectedValue}
+        onChange={item => setSelectedValue(item.value)}
         renderLeftIcon={() => (
-          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+          <AntDesign style={styles.icon} color="black" name="appstore-o" size={20} />
         )}
-        renderItem={renderItem}
       />
-    );
-  };
 
-export default DropdownComponent;
+      {selectedValue && (
+        <DisplayShops shops={shopData[selectedValue] || []} />
+      )}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    dropdown: {
-      margin: 16,
-      height: 50,
-      backgroundColor: 'white',
-      borderRadius: 12,
-      padding: 12,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 1.41,
-
-      elevation: 2,
-    },
-    icon: {
-      marginRight: 5,
-    },
-    item: {
-      padding: 17,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    textItem: {
-      flex: 1,
-      fontSize: 16,
-    },
-    placeholderStyle: {
-      fontSize: 16,
-    },
-    selectedTextStyle: {
-      fontSize: 16,
-    },
-    iconStyle: {
-      width: 20,
-      height: 20,
-    },
-    inputSearchStyle: {
-      height: 40,
-      fontSize: 16,
-    },
-  });
+  dropdown: {
+    margin: 16,
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  icon: {
+    marginRight: 5,
+  },
+});
