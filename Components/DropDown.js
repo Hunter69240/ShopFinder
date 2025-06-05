@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import * as Location from 'expo-location';
 import DisplayShops from './DisplayShops';
 import { fetchShopsByCategory } from '../utils/overpass';
-import { set } from 'lodash';
 
 const data = [
   { label: 'Stationary', value: '1' },
@@ -24,7 +24,6 @@ const data = [
   { label: 'Car', value: '15' },
   { label: 'Petrol Pump', value: '16' },
   { label: 'Food', value: '17' }
-  
 ];
 
 const categoryMap = {
@@ -45,31 +44,44 @@ const categoryMap = {
   '15': 'car',
   '16': 'fuel',
   '17': 'food'
-
 };
-
-
-
-
 
 export default function DropdownComponent() {
   const [selectedValue, setSelectedValue] = useState(null);
   const [fetchedShops, setFetchedShops] = useState([]);
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Denied', 'Location permission is required to find nearby shops.');
+        return;
+      }
+
+      let { coords } = await Location.getCurrentPositionAsync({});
+      setLocation(coords);
+    })();
+  }, []);
+
   const handleChange = async (item) => {
     setSelectedValue(item.value);
-    const category=categoryMap[item.value];
-    const lat = 13.0266;
-    const lon = 77.5150;
-    
+    const category = categoryMap[item.value];
+
+    if (!location) {
+      Alert.alert('Location not available', 'Please wait while we get your location.');
+      return;
+    }
+
     try {
-      const shops = await fetchShopsByCategory(category, lat, lon);
+      const shops = await fetchShopsByCategory(category, location.latitude, location.longitude);
       setFetchedShops(shops);
       console.log('Fetched shops:', shops);
-
     } catch (error) {
       console.error('Error fetching shops:', error);
     }
-  }
+  };
+
   return (
     <View>
       <Dropdown
@@ -80,15 +92,17 @@ export default function DropdownComponent() {
         placeholder="Select item"
         value={selectedValue}
         onChange={handleChange}
-
         renderLeftIcon={() => (
           <AntDesign style={styles.icon} color="black" name="appstore-o" size={20} />
         )}
       />
-
-      {fetchedShops.length>0 && (
-        <DisplayShops shops={fetchedShops.map(shop=>({label:shop.name}))} />
-      )}
+      {fetchedShops.length > 0 &&fetchedShops.some(shop=>shop.name) ? (
+        <DisplayShops shops={fetchedShops.map(shop => ({ label: shop.name }))} />
+      )
+      : (
+        <Text style={{ textAlign: 'center', marginTop: 20 }}>No shops found for this category.</Text>
+      )
+      }
     </View>
   );
 }
