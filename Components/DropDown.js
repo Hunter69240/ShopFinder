@@ -3,39 +3,73 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DisplayShops from './DisplayShops';
+import { fetchShopsByCategory } from '../utils/overpass';
+import { set } from 'lodash';
 
 const data = [
   { label: 'Stationary', value: '1' },
   { label: 'Print', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  { label: 'Bakery', value: '3' },
+  { label: 'Dairy', value: '4' },
+  { label: 'Pastry', value: '5' },
+  { label: 'Wine', value: '6' },
+  { label: 'Mall', value: '7' },
+  { label: 'WholeSale', value: '8' },
+  { label: 'Clothes', value: '9' },
+  { label: 'Jewellers', value: '10' },
+  { label: 'Shoes', value: '11' },
+  { label: 'Medical Shop', value: '12' },
+  { label: 'Electrical', value: '13' },
+  { label: 'Houseware', value: '14' },
+  { label: 'Car', value: '15' },
+  { label: 'Petrol Pump', value: '16' },
+  { label: 'Food', value: '17' }
+  
 ];
 
+const categoryMap = {
+  '1': 'stationery',
+  '2': 'copyshop',
+  '3': 'bakery',
+  '4': 'dairy',
+  '5': 'pastry',
+  '6': 'wine',
+  '7': 'Mall',
+  '8': 'wholesale',
+  '9': 'clothes',
+  '10': 'jewellers',
+  '11': 'shoes',
+  '12': 'medical_supply',
+  '13': 'electrical',
+  '14': 'houseware',
+  '15': 'car',
+  '16': 'fuel',
+  '17': 'food'
 
-const shopData = {
-  '1': [
-    { label: 'Stationary Shop A' },
-    { label: 'Stationary Shop B' },
-  ],
-  '2': [
-    { label: 'Print Shop X' },
-    { label: 'Print Shop Y' },
-  ],
-  '3': [{ label: 'Item 3 Shop' }],
-  '4': [{ label: 'Item 4 Shop' }],
-  '5': [{ label: 'Item 5 Shop' }],
-  '6': [{ label: 'Item 6 Shop' }],
-  '7': [{ label: 'Item 7 Shop' }],
-  '8': [{ label: 'Item 8 Shop' }],
 };
+
+
+
+
 
 export default function DropdownComponent() {
   const [selectedValue, setSelectedValue] = useState(null);
+  const [fetchedShops, setFetchedShops] = useState([]);
+  const handleChange = async (item) => {
+    setSelectedValue(item.value);
+    const category=categoryMap[item.value];
+    const lat = 13.0266;
+    const lon = 77.5150;
+    
+    try {
+      const shops = await fetchShopsByCategory(category, lat, lon);
+      setFetchedShops(shops);
+      console.log('Fetched shops:', shops);
 
+    } catch (error) {
+      console.error('Error fetching shops:', error);
+    }
+  }
   return (
     <View>
       <Dropdown
@@ -45,14 +79,15 @@ export default function DropdownComponent() {
         valueField="value"
         placeholder="Select item"
         value={selectedValue}
-        onChange={item => setSelectedValue(item.value)}
+        onChange={handleChange}
+
         renderLeftIcon={() => (
           <AntDesign style={styles.icon} color="black" name="appstore-o" size={20} />
         )}
       />
 
-      {selectedValue && (
-        <DisplayShops shops={shopData[selectedValue] || []} />
+      {fetchedShops.length>0 && (
+        <DisplayShops shops={fetchedShops.map(shop=>({label:shop.name}))} />
       )}
     </View>
   );
