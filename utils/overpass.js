@@ -1,4 +1,4 @@
-// utils/overpass.js
+
 export async function fetchShopsByCategory(category, lat, lon) {
   const query = `
     [out:json][timeout:25];

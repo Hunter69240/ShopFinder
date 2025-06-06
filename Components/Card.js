@@ -1,24 +1,58 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React,{useState} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
-export default function Card({ value }) {
+import Icon from 'react-native-vector-icons/FontAwesome';
+export default function Card({ name,latitude,longitude }) {
+  const openMap = () => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    Linking.openURL(url).catch(err => console.error('Error opening map:', err));
+  };
+
+  const [favourite, setFavourite] = useState(false);
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.text}>{value.label}</Text>
+   <>
+    <View style={styles.container}>
+          
+            <Text style={styles.text}>{name}</Text>
+            <TouchableOpacity onPress={openMap}>
+              <Text style={styles.nav}>Open in Maps</Text>
+            </TouchableOpacity> 
+            
+            <TouchableOpacity onPress={() => setFavourite(!favourite)}>
+              <Icon
+              name={favourite ? 'star' : 'star-o'}
+           size={30}
+           color={favourite ? 'gold' : 'gray'}
+              />
+            </TouchableOpacity>
+          
+
     </View>
+   </>
   );
 }
-
 const styles = StyleSheet.create({
-  card: {
-    margin: 10,
-    padding: 15,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 10,
-    elevation: 2,
-  },
+  
+  container: {
+  justifyContent:'space-between',
+  backgroundColor: '#ffffff',
+  padding: 16,
+  marginBottom: 16,
+  borderRadius: 12,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3,
+},
   text: {
-    fontSize: 16,
-    fontWeight: 'bold',
+   color: 'black',
+   fontSize: 18,
   },
+  nav:{
+   color: 'blue',
+   textDecorationLine: 'underline',
+   justifyContent: 'space-between',
+  }
 });
