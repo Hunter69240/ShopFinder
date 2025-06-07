@@ -9,7 +9,7 @@ export default function DrawerNavigator() {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="HomeStack" component={StackNavigator} />
-      <Drawer.Screen name="Favourites" component={FavouritesScreen} />
+      <Drawer.Screen name="Favourites" component={FavouritesScreen}/>
     </Drawer.Navigator>
   );
 }

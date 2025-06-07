@@ -92,6 +92,7 @@ export default function DropdownComponent({location}) {
 ) : fetchedShops.length > 0 ? (
   <DisplayShops
     shops={fetchedShops.map(shop => ({
+      id: shop.id,
       name: shop.name || shop.label,
       lat: shop.lat,
       lon: shop.lon

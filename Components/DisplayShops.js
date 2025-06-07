@@ -3,15 +3,21 @@ import { View, StyleSheet } from 'react-native';
 import Card from './Card';
 
 export default function DisplayShops({ shops }) {
+
   
+
+   
+
   return (
     <View style={styles.container}>
-      {shops.map((shop, index) => (
+      {shops.map((shop) => (
         <Card
-          key={index}
+          key={`${shop.id}`}
+          shopkey={`${shop.id}`}
           name={shop.name}
           latitude={shop.lat}
           longitude={shop.lon}
+          shops={shops}
         />
       ))}
     </View>

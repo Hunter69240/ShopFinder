@@ -23,7 +23,6 @@ export async function fetchShopsByCategory(category, lat, lon) {
   }
 
   const data = await response.json();
-
   return data.elements.map(el => ({
     id: el.id,
     lat: el.lat || el.center?.lat,
