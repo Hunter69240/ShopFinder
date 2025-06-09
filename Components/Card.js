@@ -47,7 +47,7 @@ export default function Card({ shopkey, name, latitude, longitude }) {
       console.error('Error storing favourite:', error);
     }
   };
-
+  console.log('Card rendered for shop:', shopkey, name, latitude, longitude);
   return (
 
     
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    paddingBottom: 0,
   },
   text: {
     color: 'black',
