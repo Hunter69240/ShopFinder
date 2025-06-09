@@ -49,6 +49,8 @@ export default function Card({ shopkey, name, latitude, longitude }) {
   };
 
   return (
+
+    
     <View style={styles.container}>
       <Text style={styles.text}>{name}</Text>
       <TouchableOpacity onPress={openMap}>

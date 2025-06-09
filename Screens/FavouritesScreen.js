@@ -1,9 +1,9 @@
 import React,{useState,useCallback} from 'react';
-import { Text ,StyleSheet,View} from 'react-native';    
+import { Text ,StyleSheet,FlatList} from 'react-native';    
 import Header from '../Components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Card from '../Components/Card';
-import { Linking } from 'react-native';
+
 import { useFocusEffect } from '@react-navigation/native';
 
 
@@ -40,16 +40,22 @@ export default function FavouritesScreen() {
       <Text style={styles.text}>
         Favourites Screen
       </Text>
-      {Object.entries(favourites).map(([key,shop])=>(
-        <Card
-          key={key}
-          shopkey={key}
-          name={shop.name}
-          latitude={shop.latitude}
-          longitude={shop.longitude}
-          shops={Object.values(favourites)}
-        />
-      ))}
+      <FlatList
+  data={Object.entries(favourites).map(([key, shop]) => ({
+    id: key,
+    ...shop,
+  }))}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <Card
+      shopkey={item.id}
+      name={item.name}
+      latitude={item.latitude}
+      longitude={item.longitude}
+    />
+  )}
+/>
+
 
     </>
   );
