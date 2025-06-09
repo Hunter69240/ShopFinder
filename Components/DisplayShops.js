@@ -2,12 +2,7 @@ import React from 'react';
 import { View, StyleSheet,FlatList } from 'react-native';
 import Card from './Card';
 
-export default function DisplayShops({ shops }) {
-
-  
-
-   
-
+export default function DisplayShops({ shops }) { 
   return (
     <FlatList
   data={shops}

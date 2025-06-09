@@ -61,6 +61,9 @@ export default function Card({ shopkey, name, latitude, longitude }) {
         <Text>{favourite?"Remove from Favourite":"Add to Favourite"}</Text>
       </TouchableOpacity>
     </View>
+
+
+
   );
 }
 
