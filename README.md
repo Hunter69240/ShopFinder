@@ -37,3 +37,14 @@ git clone https://github.com/Hunter69240/ShopFinder.git
 cd ShopFinder
 npm install
 npx expo start
+```
+
+---
+
+## 📲 APK Available for Testing
+
+The app is built and ready to use!  
+If you're interested in **testing the app** or **contributing**, feel free to reach out.  
+📧 **APK available upon request** — contact me via email or open an issue in this repository.
+
+---
