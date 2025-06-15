@@ -40,8 +40,14 @@ npx expo start
 ```
 
 ---
-
+##  Home Page
 ![WhatsApp Image 2025-06-15 at 14 27 01_06ebf707](https://github.com/user-attachments/assets/0cb2969c-1861-42eb-86bf-d2d0b1dfeea1)
+
+
+## Search Shops
+
+
+![WhatsApp Image 2025-06-15 at 14 27 01_b8e4416a](https://github.com/user-attachments/assets/4b2abd55-f154-4148-aa64-58e9f3cfd635)
 
 
 ## 📲 APK Available for Testing
