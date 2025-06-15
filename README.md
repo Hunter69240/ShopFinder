@@ -41,6 +41,9 @@ npx expo start
 
 ---
 
+![WhatsApp Image 2025-06-15 at 14 27 01_06ebf707](https://github.com/user-attachments/assets/0cb2969c-1861-42eb-86bf-d2d0b1dfeea1)
+
+
 ## 📲 APK Available for Testing
 
 The app is built and ready to use!  
